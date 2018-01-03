@@ -42,8 +42,8 @@
 		}
 	},
 	"progress": {
-		"lottery": 0,
-		"time": 0
+		"lottery": 3,
+		"time": 1
 	},
 	"refresh": 20
 }
