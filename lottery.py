@@ -15,8 +15,20 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet("border-image: url(:/1/bg.png);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
-        self.verticalLayout.setObjectName("verticalLayout")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.labShow = QtWidgets.QLabel(self.centralwidget)
+        self.labShow.setMaximumSize(QtCore.QSize(250, 16777215))
+        font = QtGui.QFont()
+        font.setFamily("隶书")
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.labShow.setFont(font)
+        self.labShow.setStyleSheet("border-image: url();")
+        self.labShow.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
+        self.labShow.setObjectName("labShow")
+        self.horizontalLayout.addWidget(self.labShow)
         self.labName = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("隶书")
@@ -27,7 +39,9 @@ class Ui_MainWindow(object):
         self.labName.setStyleSheet("border-image: url();")
         self.labName.setAlignment(QtCore.Qt.AlignCenter)
         self.labName.setObjectName("labName")
-        self.verticalLayout.addWidget(self.labName)
+        self.horizontalLayout.addWidget(self.labName)
+        spacerItem = QtWidgets.QSpacerItem(250, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -36,6 +50,17 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.labShow.setText(_translate("MainWindow", "一等奖, {prize1}\n"
+"{winner1.1}\n"
+"\n"
+"二等奖, {prize2}\n"
+"{winner2.1}\n"
+"{winner2.2}\n"
+"\n"
+"三等奖, {prize3}\n"
+"{winner3.1}\n"
+"{winner3.2}\n"
+"{winner3.3}"))
         self.labName.setText(_translate("MainWindow", "无名氏"))
 
 import bg_rc

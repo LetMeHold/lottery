@@ -21,7 +21,7 @@
 	"lottery": {
 		"1": {
 			"name": "一等奖",
-			"prize": "iPad",
+			"prize": "Apple iPad",
 			"time": 1,
 			"amount": 1,
 			"winner": []
@@ -40,6 +40,10 @@
 			"amount": 1,
 			"winner": []
 		}
+	},
+	"progress": {
+		"lottery": 0,
+		"time": 0
 	},
 	"refresh": 20
 }
