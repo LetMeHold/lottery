@@ -13,5 +13,5 @@ def dumpJson(pyObj):
     return json.dumps(pyObj, sort_keys=True, indent=4, ensure_ascii=False)
 
 def dumpJsonFile(pyObj, fileName):
-    json.dump(pyObj, open(fileName, 'w', encoding='UTF-8'), sort_keys=True, indent=4)
+    json.dump(pyObj, open(fileName, 'w', encoding='UTF-8'), sort_keys=True, indent=4, ensure_ascii=False)
 

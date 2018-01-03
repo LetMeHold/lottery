@@ -11,13 +11,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
-        #self.relate()
-        self.initdata()
         self.showMaximized()
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.draw)
+        #self.relate()
+        self.initdata()
 
     def initdata(self):
+        self.winners = []
         self.labName.setText('')
         self.data = loadJsonFile('data.json')
         self.info = ''
@@ -29,10 +30,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for i in range(1,v['time']+1):
                 tmp = ''
                 for j in range(1, v['amount']+1):
-                    if j == 1:
-                        tmp += '%s.%d.%d 待定' % (k,i,j)
+                    if j != 1:
+                        tmp += '\t'
+                    if len(v['winner']) >= i:
+                        tmp += v['winner'][i-1][j-1]
                     else:
-                        tmp += '、%s.%d.%d 待定' % (k,i,j)
+                        tmp += '%s.%d.%d 待定' % (k,i,j)
                 winners += '%s\n' % tmp
             self.info += '%s\n%s\n' % (title,winners)
         lty = self.data['progress']['lottery']
@@ -51,8 +54,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.labShow.setText('%s\n\n%s' % (progress,info))
 
     def draw(self):
-        self.winner = random.choice(self.data['actor'])
-        self.labName.setText(self.winner)
+        lst = self.data['actor'].copy()
+        self.winners = []
+        for i in range(1,self.amt+1):
+            tmp = random.choice(lst)
+            self.winners.append(tmp)
+            lst.remove(tmp)
+        ifo = '\n'
+        for tmp in self.winners:
+            ifo += '%s\n' % tmp
+        self.labName.setText(ifo)
 
     def start(self):
         lty = self.data['progress']['lottery']
@@ -60,14 +71,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showinfo(self.progress(0,0), self.info)
             self.labName.setText('谢谢')
             return
-            #lty = len(self.data['lottery'])
-            #self.data['progress']['lottery'] = lty
-            #self.data['progress']['time'] = self.data['lottery'][str(lty)]['time']
         tm = self.data['progress']['time']
         amt = self.data['lottery'][str(lty)]['amount']
+        self.amt = amt
         for i in range(1,amt+1):
-            txt = '%d.%d.%d 待定' % (lty,tm,i)
-            self.info = self.info.replace(txt, '抽奖进行中...')
+            tmp = '%d.%d.%d 待定' % (lty,tm,i)
+            self.info = self.info.replace(tmp, '抽奖进行中...')
         self.showinfo(self.progress(lty,tm), self.info)
         self.timer.start(self.data['refresh'])
 
@@ -81,14 +90,36 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.data['progress']['time'] += 1
         amt = self.data['lottery'][str(lty)]['amount']
-        for i in range(1,amt+1):
-            txt = '抽奖进行中...'
-            self.info = self.info.replace(txt, self.winner)
+        tmp = '抽奖进行中...'
+        for winner in self.winners:
+            self.info = self.info.replace(tmp, winner, 1)
         self.showinfo(self.progress(lty,tm), self.info)
+        self.data['lottery'][str(lty)]['winner'].append(self.winners)
+        for tmp in self.winners:
+            self.data['actor'].remove(tmp)
+        dumpJsonFile(self.data, 'data.json')
+
+    def reset(self):
+        lty = len(self.data['lottery'])
+        self.data['progress']['lottery'] = lty
+        self.data['progress']['time'] = 1
+        for k,v in self.data['lottery'].items():
+            for m in v['winner']:
+                for n in  m:
+                    self.data['actor'].append(n)
+            v['winner'] = []
+        dumpJsonFile(self.data, 'data.json')
+        self.initdata()
 
     #def relate(self):
         #self.btnStart.clicked.connect(self.start)
         #self.btnStop.clicked.connect(self.stop)
+
+    def showhelp(self):
+        if self.labHelp.isHidden():
+            self.labHelp.show()
+        else:
+            self.labHelp.hide()
 
     def keyPressEvent(self, e):
         if e.key()==Qt.Key_Return or e.key()==Qt.Key_Space:
@@ -101,5 +132,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif e.key() == Qt.Key_Escape:
             #self.showNormal()
             self.showMaximized()
+        elif e.key()==Qt.Key_Backspace or e.key()==Qt.Key_Delete:
+            self.reset()
+        elif e.key() == Qt.Key_H:
+            self.showhelp()
 
 

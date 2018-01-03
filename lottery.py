@@ -50,8 +50,20 @@ class Ui_MainWindow(object):
         self.labName.setAlignment(QtCore.Qt.AlignCenter)
         self.labName.setObjectName("labName")
         self.horizontalLayout.addWidget(self.labName)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem)
+        self.labHelp = QtWidgets.QLabel(self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.labHelp.sizePolicy().hasHeightForWidth())
+        self.labHelp.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("隶书")
+        font.setPointSize(13)
+        self.labHelp.setFont(font)
+        self.labHelp.setStyleSheet("border-image: url();")
+        self.labHelp.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.labHelp.setObjectName("labHelp")
+        self.horizontalLayout.addWidget(self.labHelp)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -72,5 +84,12 @@ class Ui_MainWindow(object):
 "{winner3.2}\n"
 "{winner3.3}"))
         self.labName.setText(_translate("MainWindow", "无名氏"))
+        self.labHelp.setText(_translate("MainWindow", "h - 显示/隐藏该帮助信息\n"
+"enter - 开始/结束抽奖\n"
+"space - 开始/结束抽奖\n"
+"backspace - 重置数据\n"
+"delete - 重置数据\n"
+"f11 - 全屏显示\n"
+"esc - 退出全屏"))
 
 import bg_rc

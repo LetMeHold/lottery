@@ -89,20 +89,35 @@
      </widget>
     </item>
     <item>
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+     <widget class="QLabel" name="labHelp">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Expanding</enum>
+      <property name="font">
+       <font>
+        <family>隶书</family>
+        <pointsize>13</pointsize>
+       </font>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
+      <property name="styleSheet">
+       <string notr="true">border-image: url();</string>
       </property>
-     </spacer>
+      <property name="text">
+       <string>h - 显示/隐藏该帮助信息
+enter - 开始/结束抽奖
+space - 开始/结束抽奖
+backspace - 重置数据
+delete - 重置数据
+f11 - 全屏显示
+esc - 退出全屏</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
