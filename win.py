@@ -35,14 +35,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         tmp += '、%s.%d.%d 待定' % (k,i,j)
                 winners += '%s\n' % tmp
             self.info += '%s\n%s\n' % (title,winners)
-        self.showinfo(self.progress(), self.info)
+        lty = self.data['progress']['lottery']
+        tm = self.data['progress']['time']
+        self.showinfo(self.progress(lty,tm), self.info)
 
-    def progress(self):  #获取最新进度消息
-        pLty = self.data['progress']['lottery']
+    def progress(self, lty, tm):  #获取最新进度消息
+        if lty == 0:
+            return '本次抽奖已全部结束'
         return '进度: %s, 第%d次, 抽%d人' % (
-            self.data['lottery'][str(pLty)]['name'], \
-            self.data['progress']['time'], \
-            self.data['lottery'][str(pLty)]['amount'])
+            self.data['lottery'][str(lty)]['name'], \
+            tm,
+            self.data['lottery'][str(lty)]['amount'])
 
     def showinfo(self, progress, info):
         self.labShow.setText('%s\n\n%s' % (progress,info))
@@ -52,10 +55,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.labName.setText(name)
 
     def start(self):
+        lty = self.data['progress']['lottery']
+        if lty == 0:    #表示抽奖已全部结束
+            self.showinfo(self.progress(0,0), self.info)
+            self.labName.setText('谢谢')
+            return
+            #lty = len(self.data['lottery'])
+            #self.data['progress']['lottery'] = lty
+            #self.data['progress']['time'] = self.data['lottery'][str(lty)]['time']
+        tm = self.data['progress']['time']
+        self.showinfo(self.progress(lty,tm), self.info)
         self.timer.start(self.data['refresh'])
 
     def stop(self):
         self.timer.stop()
+        lty = self.data['progress']['lottery']
+        tm = self.data['progress']['time']
+        if tm == self.data['lottery'][str(lty)]['time']:
+            self.data['progress']['lottery'] -= 1
+            self.data['progress']['time'] = 1
+        else:
+            self.data['progress']['time'] += 1
 
     #def relate(self):
         #self.btnStart.clicked.connect(self.start)
