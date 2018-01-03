@@ -51,8 +51,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.labShow.setText('%s\n\n%s' % (progress,info))
 
     def draw(self):
-        name = random.choice(self.data['actor'])
-        self.labName.setText(name)
+        self.winner = random.choice(self.data['actor'])
+        self.labName.setText(self.winner)
 
     def start(self):
         lty = self.data['progress']['lottery']
@@ -64,6 +64,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             #self.data['progress']['lottery'] = lty
             #self.data['progress']['time'] = self.data['lottery'][str(lty)]['time']
         tm = self.data['progress']['time']
+        amt = self.data['lottery'][str(lty)]['amount']
+        for i in range(1,amt+1):
+            txt = '%d.%d.%d 待定' % (lty,tm,i)
+            self.info = self.info.replace(txt, '抽奖进行中...')
         self.showinfo(self.progress(lty,tm), self.info)
         self.timer.start(self.data['refresh'])
 
@@ -76,6 +80,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.data['progress']['time'] = 1
         else:
             self.data['progress']['time'] += 1
+        amt = self.data['lottery'][str(lty)]['amount']
+        for i in range(1,amt+1):
+            txt = '抽奖进行中...'
+            self.info = self.info.replace(txt, self.winner)
+        self.showinfo(self.progress(lty,tm), self.info)
 
     #def relate(self):
         #self.btnStart.clicked.connect(self.start)
