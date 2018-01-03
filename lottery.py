@@ -49,7 +49,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "万泊科技抽奖程序"))
         self.labShow.setText(_translate("MainWindow", "一等奖, {prize1}\n"
 "{winner1.1}\n"
 "\n"

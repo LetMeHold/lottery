@@ -26,13 +26,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             title = '%s, %s' % (v['name'], v['prize'])
             winners = ''
             for i in range(1,v['time']+1):
-                tmp = None
+                tmp = ''
                 for j in range(1, v['amount']+1):
                     if j == 1:
-                        tmp = '%d.%d 待定' % (i,j)
+                        tmp += '%s.%d.%d 待定' % (k,i,j)
                     else:
-                        tmp = '、%d.%d 待定' % (i,j)
-                    tmp = '%s.%s' % (k,tmp)
+                        tmp += '、%s.%d.%d 待定' % (k,i,j)
                 winners += '%s\n' % tmp
             info += '%s\n%s\n' % (title,winners)
         self.labShow.setText(info)

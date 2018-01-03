@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>万泊科技抽奖程序</string>
   </property>
   <property name="styleSheet">
    <string notr="true">border-image: url(:/1/bg.png);</string>
